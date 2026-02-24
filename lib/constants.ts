@@ -54,6 +54,6 @@ export const events : EventItem[] = [
     slug: "ai-web-dev-2026",
     location: "Toronto, Canada",
     date: "July 14-16, 2026",
-    time: "8:00 AM - 5:00 PM",
+    time: "8:00 AM - 6:00 PM",
   },
 ];
