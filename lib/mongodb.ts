@@ -34,17 +34,19 @@ globalThis.mongooseCache = cached;
  * Safe to call from any server-side code (API routes, server components, etc.).
  */
 async function dbConnect(): Promise<typeof mongoose> {
-  
-  if (!MONGODB_URI) {
-    throw new Error(
-      "MONGODB_URI is not defined. Please add it to your environment variables."
-    );
-  }
+ 
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
+     
+    if (!MONGODB_URI) {
+      throw new Error(
+        "MONGODB_URI is not defined. Please add it to your environment variables."
+      );
+    }
+
     cached.promise = mongoose.connect(MONGODB_URI!, {
       bufferCommands: false,
     });
