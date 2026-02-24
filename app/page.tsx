@@ -1,5 +1,6 @@
 import EventCard from "@/components/EventCard";
 import ExploreBtn from "@/components/ExploreBtn";
+import EventsSectionTracker from "@/components/EventsSectionTracker";
 import { events } from "@/lib/constants";
 
 const Page = () => {
@@ -13,7 +14,8 @@ const Page = () => {
       </p>
       <ExploreBtn />
 
-      <div className="mt-20 space-y-7">
+      <div className="mt-20 space-y-7" id="events" style={{ position: "relative" }}>
+        <EventsSectionTracker />
         <h3>Featured Events</h3>
 
         <ul className="events list-none">
