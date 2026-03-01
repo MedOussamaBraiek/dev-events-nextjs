@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  cacheComponents: false,
+  cacheComponents: true,
   experimental: {
     turbopackFileSystemCacheForDev: true,
   },
