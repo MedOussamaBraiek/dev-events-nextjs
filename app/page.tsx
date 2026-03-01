@@ -5,7 +5,7 @@ import { IEvent } from "@/database";
 import { cacheLife } from "next/cache";
 import { events } from "@/lib/constants";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URI;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URI;
 
 const Page = async () => {
   "use cache";
