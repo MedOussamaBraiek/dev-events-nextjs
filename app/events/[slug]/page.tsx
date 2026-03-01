@@ -1,9 +1,9 @@
 import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
-import { IEvent } from "@/database";
 import { getSimularEventBySlug } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URI;
 
@@ -49,6 +49,26 @@ const EventTags = ({ tags }: { tags: string[] }) => {
     </div>
   );
 };
+
+async function SimilarEvents({ slug }: { slug: string }) {
+  const similarEvents = await getSimularEventBySlug(slug);
+  return (
+    <>
+      {similarEvents.map((event) => (
+        <EventCard
+          key={event._id}
+          title={event.title}
+          image={event.image}
+          date={event.date}
+          time={event.time}
+          location={event.location}
+          slug={event.slug}
+        />
+      ))}
+      {similarEvents.length === 0 && <p>No similar events found.</p>}
+    </>
+  );
+}
 
 const EventDetailsPage = async ({
   params,
@@ -97,7 +117,7 @@ const EventDetailsPage = async ({
 
   if (!description) return notFound();
 
-  const similarEvents: IEvent[] = await getSimularEventBySlug(slug);
+  // const similarEvents: IEvent[] = await getSimularEventBySlug(slug);
   const bookings = 10;
 
   return (
@@ -165,7 +185,7 @@ const EventDetailsPage = async ({
               <p className="text-sm">Be the first to book your spot!</p>
             )}
 
-            <BookEvent />
+            <BookEvent eventId={events._id} slug={slug} />
           </div>
         </aside>
       </div>
@@ -173,18 +193,9 @@ const EventDetailsPage = async ({
       <div className=" w-full flex-col gap-4 mt-20 ">
         <h2>Similar Events</h2>
         <div className="events mt-5">
-          {similarEvents.length > 0 &&
-            similarEvents.map((similarEvent: IEvent) => (
-              <EventCard
-                key={similarEvent.title}
-                image={similarEvent.image}
-                title={similarEvent.title}
-                date={similarEvent.date}
-                time={similarEvent.time}
-                location={similarEvent.location}
-                slug={similarEvent.slug}
-              />
-            ))}
+          <Suspense fallback={<div>Loading similar events...</div>}>
+            <SimilarEvents slug={slug} />
+          </Suspense>
         </div>
       </div>
     </section>
