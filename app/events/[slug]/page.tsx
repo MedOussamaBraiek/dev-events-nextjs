@@ -1,3 +1,4 @@
+import BookEvent from "@/components/BookEvent";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
 import { getSimularEventBySlug } from "@/lib/actions/event.actions";
@@ -97,6 +98,7 @@ const EventDetailsPage = async ({
   if (!description) return notFound();
 
   const similarEvents: IEvent[] = await getSimularEventBySlug(slug);
+  const bookings = 10;
 
   return (
     <section id="event">
@@ -153,7 +155,18 @@ const EventDetailsPage = async ({
         </div>
         {/* Right Side - Booking Form */}
         <aside className="booking">
-          <p className="text-lg font-semibold">Book Event</p>
+          <div className="signup-card">
+            <h2>Book Your Spot</h2>
+            {bookings > 0 ? (
+              <p className="text-sm">
+                Join {bookings} people who have already booked their spot!
+              </p>
+            ) : (
+              <p className="text-sm">Be the first to book your spot!</p>
+            )}
+
+            <BookEvent />
+          </div>
         </aside>
       </div>
 
